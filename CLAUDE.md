@@ -95,10 +95,10 @@ grep -n "lightweight-charts" artifacts/api-server/public/chart.html | head -3
 ### Real Express paths (24 routes — verified from src/app.ts)
 - `/login` `/register` `/profile` `/forgot-password` `/reset-password` `/verify-email`
 - `/login-qr` `/qr/verify/:token`
-- `/chart` `/discovery-hall`
+- `/chart` `/discovery-hall` `(admin routes — see private repo)`
 - `/test-pyai` ← **คือ Laboratory** (UI nav ใช้ชื่อนี้)
 - `/account/backtest` `/account/backtest/history` `/account/leaderboard` `/account/marketplace`
-- `/account/indicator-builder` `/account/indi-index`
+- `/account/indicator-builder` `/account/indi-index` `(admin routes — see private repo)` `(admin routes — see private repo)`
 - `/account/qr-test` `/account/wine` `/account/receivedfile` ← Dashboard files page
 - ❌ ไม่มี `/laboratory` `/backtest` `/dashboard` (ใช้ path เต็มข้างบน)
 
@@ -108,21 +108,21 @@ grep -n "lightweight-charts" artifacts/api-server/public/chart.html | head -3
 - EA Generation: `/strategy/{sid}/generate-mq5` `/strategy/{sid}/export-ea` (singular!)
 - MQL5 Compile: `/mql5/compile` `/mql5/status/{job_id}` `/mql5/download/{job_id}`
 - Backtest: `/backtest/run` `/backtest/optimize` `/backtest/status/{job_id}` `/backtest/runs` `/backtest/queue`
-- Discovery: `/discovery-hall` (NOT `/discovery/hall`) `/discovery/user/{user_id}` `/discovery/nickname`
+- Discovery: `/discovery-hall` (NOT `/discovery/hall`) `/discovery/user/{kt_code}` `/discovery/nickname`
 - Leaderboard: `/leaderboard/strategies` `/leaderboard/indicators` `/leaderboard/my-stats`
 - Indicators: `/indi/list` `/indi/standard` `/indi/custom/*` `/indi/ai-assist` (POST)
 - Candles: `/candles?symbol=XAU/USD&...` (slash format!) `/candles/symbols`
 - Account: `/account/kt-code` `/account/kt-code/set-birthday`
-- Admin: (admin routes — see private repo)
+- Admin: `(admin routes — see private repo)` `(admin routes — see private repo)` `(admin routes — see private repo)*` `(admin routes — see private repo)*` `(admin routes — see private repo)*`
 - Health: `/healthz` `/test-report`
 
 ### DB Tables (verified)
-- `users` — auth + user profile (schema — see private repo)
-- `saved_strategies` — strategies table (schema — see private repo)
-- `leaderboard_strategies` — discovery items (schema — see private repo)
-- `backtest_runs` + `backtest_results` — engine output (schema — see private repo)
-- `price_candle` — large historical dataset (schema — see private repo)
-- `mql5_compile_cache` — EA binary cache (schema — see private repo)
+- `users` — auth + `device_uuid` `kt_code` `qr_enabled` `role_admin` `failed_login_count` (sliding window)
+- `saved_strategies` — `id` `name` `strategy_json (jsonb)` `source` (76-100 = 25 EA strategies)
+- `leaderboard_strategies` — Discovery Hall items (570 rows, sorted by sharpe)
+- `backtest_runs` + `backtest_results` — engine output (`is_optimization` flag, `optimization_params`)
+- `price_candle` — **5.6M rows, source_type='dukascopy', timeframe='1min' เท่านั้น** (XAU/USD 2024-01-01 → 2026-04-01)
+- `mql5_compile_cache` — 36 entries (25 EA + 11 test files), BYTEA `ex5_bytes`
 - `qr_sessions` `private_nicknames` (KT code system)
 
 ### Backtest engine quirks
@@ -142,18 +142,18 @@ grep -n "lightweight-charts" artifacts/api-server/public/chart.html | head -3
 `API_TOKEN` `DATABASE_URL` `GH_EMAIL` `GH_PASSWORD` `JWT_SECRET` `REPLIT_DEV_DOMAIN`
 
 ### EA / MQL5 System
-- EA source files in (QA test suite)
-- Generator: (internal module)
+- 25 .mq5 source ใน `(QA test suite)`
+- Generator: `(internal module)`
   - **Important**: ห้าม emit `// ... )` ใน `if(...)` (line comment กิน paren). ใช้ `/* ... */` แทน
   - Unimplemented indicators → `if(false /* X — not implemented */)` (fail-safe)
 - Compile pipeline: `mql5_compile.yml` workflow, semaphore=2, cache by SHA256
-- EA binaries cached in DB
+- 25/25 EA `.ex5` ใน DB cache (verified)
 - ⚠️ Race condition ใน `_find_run` — fix อยู่ใน mql5_compiler.py แล้ว, active หลัง server restart (ตอนนั้นค่อย add `run-name` กลับใน workflow yml)
 
 ### Status (2026-04-17)
 - All Phase Test: **657/657 PASS**
-- Discovery Hall: discovery items deployed
-- EA Compiled: EA files compiled
+- Discovery Hall: **570 items**
+- EA Compiled: **25/25 .ex5**
 - QA 100-route: เพิ่ง fix paths รัน batch ใหม่อยู่
 
 ### Known Pitfalls
