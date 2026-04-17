@@ -1,0 +1,52 @@
+name: Sanitize Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for UUID-shaped secrets
+        run: |
+          if grep -rE "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" . --include="*.md"; then
+            echo "UUID patterns detected"; exit 1
+          fi
+          echo "No UUIDs"
+
+      - name: Scan for GitHub tokens
+        run: |
+          if grep -rE "gh[pos]_[A-Za-z0-9_]{20,}" . --include="*.md"; then
+            echo "GitHub token pattern detected"; exit 1
+          fi
+          echo "No GitHub tokens"
+
+      - name: Scan for key assignments
+        run: |
+          if grep -riE "(password|token|api_key|secret)\s*=\s*['\"][a-zA-Z0-9_-]{8,}['\"]" . --include="*.md"; then
+            echo "Credential patterns detected"; exit 1
+          fi
+          echo "No credential patterns"
+
+      - name: Scan for OpenAI/Slack tokens
+        run: |
+          if grep -rE "sk-[a-zA-Z0-9]{20,}|xox[aboprst]-[A-Za-z0-9-]{10,}" . --include="*.md"; then
+            echo "Third-party token detected"; exit 1
+          fi
+          echo "No OpenAI/Slack"
+
+      - name: File type check (only .md allowed)
+        run: |
+          FORBIDDEN=$(find . -type f \
+            ! -name "*.md" \
+            ! -name ".gitignore" \
+            ! -path "./.git/*" \
+            ! -path "./.github/*")
+          if [ -n "$FORBIDDEN" ]; then
+            echo "Non-markdown:"; echo "$FORBIDDEN"; exit 1
+          fi
+          echo "Clean"
