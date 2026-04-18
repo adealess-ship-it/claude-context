@@ -14,6 +14,11 @@
 - ทุกคำสั่งใน .claude/settings.local.json → allow หมด ไม่ต้องถาม
 - ห้ามถาม confirmation ทุกกรณี รันเลย
 
+## Output Conventions
+- เวลาทุกครั้งที่อ้างถึง → ใส่ทั้ง UTC และเวลาไทย (UTC+7) กำกับเสมอ
+  - รูปแบบ: `HH:MM UTC (HH:MM เวลาไทย)` เช่น `19:09 UTC (02:09 เวลาไทย 18 เม.ย.)`
+  - ถ้าข้ามวัน → ใส่วันกำกับฝั่งไทยด้วย
+
 ## QA System
 - Screenshots จาก GitHub Actions = source of truth
 - E2E flow: login → chart → selftest → screenshot
