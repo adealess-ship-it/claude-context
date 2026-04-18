@@ -66,3 +66,6 @@ Test
 ## 2026-04-18 02:14 UTC (09:14 เวลาไทย) — commit `8c19d74` (slot-1)
 **feat(pyst): PROGRESS.md captures work + Claude.ai sees via raw URL**
 Files: .bin/pyst-note CLAUDE.md 
+
+## 2026-04-18 02:14 UTC (09:14 เวลาไทย) [note slot-1]
+a+b pipeline verified: post-commit hook appended entry, sync exit 0, PROGRESS.md 828→64 lines, Claude.ai can now read work log via raw URL without manual pyst-export
