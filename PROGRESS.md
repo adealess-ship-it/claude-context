@@ -69,3 +69,7 @@ Files: .bin/pyst-note CLAUDE.md
 
 ## 2026-04-18 02:14 UTC (09:14 เวลาไทย) [note slot-1]
 a+b pipeline verified: post-commit hook appended entry, sync exit 0, PROGRESS.md 828→64 lines, Claude.ai can now read work log via raw URL without manual pyst-export
+
+## 2026-04-18 02:34 UTC (09:34 เวลาไทย) — commit `80f4f46` (slot-2)
+**feat(dashboard): show artifacts from 4 QA workflows by category**
+Files: artifacts/api-server/public/upload.html artifacts/api-server/src/routes/dashboard.ts 
