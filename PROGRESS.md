@@ -73,3 +73,7 @@ a+b pipeline verified: post-commit hook appended entry, sync exit 0, PROGRESS.md
 ## 2026-04-18 02:34 UTC (09:34 เวลาไทย) — commit `80f4f46` (slot-2)
 **feat(dashboard): show artifacts from 4 QA workflows by category**
 Files: artifacts/api-server/public/upload.html artifacts/api-server/src/routes/dashboard.ts 
+
+## 2026-04-18 02:40 UTC (09:40 เวลาไทย) — commit `db8a6ac` (slot-2)
+**feat(dashboard): show upload time on grid thumbnails**
+Files: artifacts/api-server/public/upload.html 
