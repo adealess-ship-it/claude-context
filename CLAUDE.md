@@ -26,9 +26,19 @@
 - Tasks ค้าง / deadline → `docs/TODO.md`
 - Decision เลือก tech/approach + alternatives → `docs/DECISIONS.md`
 - Platform routing (Replit vs GA) → `docs/WHERE-TO-RUN.md`
-- Session start/end log → `PROGRESS.md` (auto ห้ามเขียนมือ)
+- Session start/end log → `PROGRESS.md` (auto ห้ามเขียนมือ — ใช้เครื่องมือใน "Work Logging" ข้างล่าง)
 - Memory file (`~/.claude/.../memory/`) → สร้าง**เฉพาะ cross-project preference** เท่านั้น (เช่น "ผมใช้ vim") ไม่ใช่ rule ของ project นี้
 - ถ้าเนื้อหาซ้ำ / เกี่ยวกับไฟล์ที่มีอยู่แล้ว → **แก้ที่เดิม** ไม่สร้างใหม่
+
+## Work Logging (PROGRESS.md pipeline)
+PROGRESS.md เป็น log ที่ Claude.ai อ่านผ่าน raw URL auto-sync — เก็บสิ่งที่มีคุณค่าในการสรุปงานเท่านั้น ไม่ใช่ noise
+
+- **Auto (ทุก commit)**: `.git/hooks/post-commit` เขียน `{UTC+ไทย} commit {hash} {msg} Files: ...` ลง PROGRESS.md + trigger sync
+- **Milestone ใหญ่**: รัน `pyst-note "ข้อความ"` — เก็บ intent/decision/ผลลัพธ์ที่ commit message เก็บไม่หมด
+  - ตัวอย่าง: `pyst-note "verified sync works end-to-end, raw URL fresh in 8s"`
+  - Claude Code (ผม) ควรเรียกเองตอนถึง milestone โดยไม่ต้องรอ user สั่ง
+- **อย่าเขียน**: step-by-step log, debug dump, tool result ดิบ — ดู `git log` หรือ `.claude/sync.log` แทน
+- `pyst-note` และ post-commit hook ยิง sync เองใน background → Claude.ai เห็นภายใน ~10 วิ (CDN cache)
 
 ## QA System
 - Screenshots จาก GitHub Actions = source of truth
