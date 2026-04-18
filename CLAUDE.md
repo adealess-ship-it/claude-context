@@ -13,6 +13,7 @@
 ## Permissions
 - ทุกคำสั่งใน .claude/settings.local.json → allow หมด ไม่ต้องถาม
 - ห้ามถาม confirmation ทุกกรณี รันเลย
+- **Read-only investigation (ไม่แก้ไฟล์/ไม่ push/ไม่ trigger workflow)** → ทำได้เลยไม่ต้องถามซ้ำ ไม่ต้อง "แนะนำถัดไป?" — เช่น อ่าน log, `gh run view`, download artifacts, grep, git log
 
 ## Output Conventions
 - เวลาทุกครั้งที่อ้างถึง → ใส่ทั้ง UTC และเวลาไทย (UTC+7) กำกับเสมอ
