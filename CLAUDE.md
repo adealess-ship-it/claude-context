@@ -123,7 +123,7 @@ grep -n "lightweight-charts" artifacts/api-server/public/chart.html | head -3
 - EA Generation: `/strategy/{sid}/generate-mq5` `/strategy/{sid}/export-ea` (singular!)
 - MQL5 Compile: `/mql5/compile` `/mql5/status/{job_id}` `/mql5/download/{job_id}`
 - Backtest: `/backtest/run` `/backtest/optimize` `/backtest/status/{job_id}` `/backtest/runs` `/backtest/queue`
-- Discovery: `/discovery-hall` (NOT `/discovery/hall`) `/discovery/user/{kt_code}` `/discovery/nickname`
+- Discovery: `/discovery-hall` (NOT `/discovery/hall`) `/discovery/user/{(column)}` `/discovery/nickname`
 - Leaderboard: `/leaderboard/strategies` `/leaderboard/indicators` `/leaderboard/my-stats`
 - Indicators: `/indi/list` `/indi/standard` `/indi/custom/*` `/indi/ai-assist` (POST)
 - Candles: `/candles?symbol=XAU/USD&...` (slash format!) `/candles/symbols`
@@ -132,7 +132,7 @@ grep -n "lightweight-charts" artifacts/api-server/public/chart.html | head -3
 - Health: `/healthz` `/test-report`
 
 ### DB Tables (verified)
-- `users` — auth + `device_uuid` `kt_code` `qr_enabled` `role_admin` `failed_login_count` (sliding window)
+- `users` — auth + `(column)` `(column)` `(column)` `(column)` `(column)` (sliding window)
 - `saved_strategies` — `id` `name` `strategy_json (jsonb)` `source` (76-100 = 25 EA strategies)
 - `leaderboard_strategies` — Discovery Hall items (570 rows, sorted by sharpe)
 - `backtest_runs` + `backtest_results` — engine output (`is_optimization` flag, `optimization_params`)
