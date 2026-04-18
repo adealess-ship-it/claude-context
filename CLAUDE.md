@@ -19,6 +19,16 @@
   - รูปแบบ: `HH:MM UTC (HH:MM เวลาไทย)` เช่น `19:09 UTC (02:09 เวลาไทย 18 เม.ย.)`
   - ถ้าข้ามวัน → ใส่วันกำกับฝั่งไทยด้วย
 
+## Note Routing (ป้องกันแยกไฟล์เรื่อยๆ)
+ก่อนสร้าง memory file / note ใหม่ → route ตามนี้ **ห้ามสร้างไฟล์ซ้ำ**:
+- Rules / conventions / preferences (เช่น format เวลา, tone, banned patterns) → **CLAUDE.md** (ไฟล์นี้)
+- Tasks ค้าง / deadline → `docs/TODO.md`
+- Decision เลือก tech/approach + alternatives → `docs/DECISIONS.md`
+- Platform routing (Replit vs GA) → `docs/WHERE-TO-RUN.md`
+- Session start/end log → `PROGRESS.md` (auto ห้ามเขียนมือ)
+- Memory file (`~/.claude/.../memory/`) → สร้าง**เฉพาะ cross-project preference** เท่านั้น (เช่น "ผมใช้ vim") ไม่ใช่ rule ของ project นี้
+- ถ้าเนื้อหาซ้ำ / เกี่ยวกับไฟล์ที่มีอยู่แล้ว → **แก้ที่เดิม** ไม่สร้างใหม่
+
 ## QA System
 - Screenshots จาก GitHub Actions = source of truth
 - E2E flow: login → chart → selftest → screenshot
