@@ -77,3 +77,7 @@ Files: artifacts/api-server/public/upload.html artifacts/api-server/src/routes/d
 ## 2026-04-18 02:40 UTC (09:40 เวลาไทย) — commit `db8a6ac` (slot-2)
 **feat(dashboard): show upload time on grid thumbnails**
 Files: artifacts/api-server/public/upload.html 
+
+## 2026-04-18 02:45 UTC (09:45 เวลาไทย) — commit `9cda8d4` (slot-2)
+**feat(dashboard): shorten grid date + mark as Thai time**
+Files: artifacts/api-server/public/upload.html 
